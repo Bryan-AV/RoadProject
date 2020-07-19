@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Road Project</title>
+
+    <script type="text/javascript" src="js/paper-full.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.0/howler.js"></script>
+	<link rel="stylesheet" href="css/style.css">
+	<link href="https://fonts.googleapis.com/css2?family=Faster+One&display=swap" rel="stylesheet"> 
+
+
+
+	<script type="text/paperscript" canvas="skyCanvas">
+
+
+	
+	
+	var keyData = {
+
+q: {
+		sound: new Howl({
+		  src: ['sounds/LSC_FX_05.wav']
+		}),
+		color: '#1abc9c'
+	},
+	w: {
+		sound: new Howl({
+		  src: ['sounds/LSC_Perc_04.wav']
+		}),
+		color: '#2ecc71'
+	},
+	e: {
+		sound: new Howl({
+		  src: ['sounds/LSC_Perc_09.wav']
+		}),
+		color: '#8c1aff'
+	},
+	r: {
+		sound: new Howl({
+		  src: ['sounds/LSC_Snare_02.wav']
+		}),
+		color: '#ff1a66'
+	},
+		t: {
+		sound: new Howl({
+		  src: ['sounds/LSC_Vocal_02_Dry.wav']
+		}),
+		color: '#0066ff'
+	},
+	y: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Drum_Fill_01_100BPM.wav']
+		}),
+		color: '#16a085'
+	},
+	u: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Drum_Fill_02_100BPM.wav']
+		}),
+		color: '#27ae60'
+	},
+	i: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Drum_Fill_03_100BPM.wav']
+		}),
+		color: '#00ff00'
+	},
+	o: {
+		sound: new Howl({
+			src: ['sounds/LSDC_Kick_01.wav']
+		}),
+		color: '#ff3399'
+	},
+	p: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Kick_05.wav']
+		}),
+		color: '#ffff66'
+	},
+	a: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Perc_02.wav']
+		}),
+		color: '#f1c40f'
+	},
+	s: {
+		sound: new Howl({
+		  src: ['sounds/LSDC_Perc_05.wav']
+		}),
+		color: '#ff751a'
+	},
+		d: {
+		sound: new Howl({
+		  src: ['sounds/LSRW_128_Drum_Fill_07.wav']
+		}),
+		color: '#ff0000'
+	},
+	f: {
+		sound: new Howl({
+		  src: ['sounds/LSRW_128_Drum_Fill_10.wav']
+		}),
+		color: '#00ffff'
+	},
+	g: {
+		sound: new Howl({
+		  src: ['sounds/OSTG_Synth_C_01.wav']
+		}),
+		color: '#f39c12'
+	},
+	h: {
+		sound: new Howl({
+		  src: ['sounds/OSTR_94_Drum_Fill_03.wav']
+		}),
+		color: '#00ff00'
+	},
+	j: {
+		sound: new Howl({
+		  src: ['sounds/OSTR_94_Drum_Fill_04.wav']
+		}),
+		color: '#1abc9c'
+	},
+	k: {
+		sound: new Howl({
+		  src: ['sounds/OSTR_Bass_01_C.wav']
+		}),
+		color: '#2ecc71'
+	},
+	l: {
+		sound: new Howl({
+		  src: ['sounds/OSTR_Bass_02_C.wav']
+		}),
+		color: '#ff3399'
+	},
+	z: {
+		sound: new Howl({
+		  src: ['sounds/Synth_Shot_A (6).wav']
+		}),
+		color: '#a31aff'
+	},
+	x: {
+		sound: new Howl({
+		  src: ['sounds/Synth_Shot_A (30).wav']
+		}),
+		color: '#8cff1a'
+	},
+	c: {
+		sound: new Howl({
+		  src: ['sounds/Synth_Shot_A (44).wav']
+		}),
+		color: '#16a085'
+	},
+	v: {
+		sound: new Howl({
+		  src: ['sounds/Synth_Shot_A (67).wav']
+		}),
+		color: '#27ae60'
+	},
+	b: {
+		sound: new Howl({
+		  src: ['sounds/Synth_Shot_D (17).wav']
+		}),
+		color: '#2980b9'
+	},
+	n: {
+		sound: new Howl({
+			src: ['sounds/Synth_Shot_F (11).wav']
+		}),
+		color: '#a31aff'
+	},
+	m: {
+		sound: new Howl({
+		  src: ['sounds/wipe.mp3']
+		}),
+		color: '#ff3399'
+	}
+
+}
+
+
+var circles = []; 
+
+var triangles = [];
+
+var squares = [];
+
+var sunLines = [];
+
+var shapes = ["square", "triangle", "circle"];
+
+
+ 	  var halfWidth =  view.size.width /2; 
+      var halfHeight = view.size.height /2;
+
+	  var maxWidth = view.size.width;
+      var maxHeight = view.size.height;
+
+
+	  var text = new PointText({
+
+point: view.center,
+justification: 'center',
+fontSize: 40,
+fillColor: 'yellow',
+fontFamily: 'Faster One',
+justification: 'center'
+
+
+});
+
+// '#ffff00',
+
+var origin = [halfWidth, 170];
+var destination = [halfWidth, 500];
+
+var sun1 = new Path.Circle({
+		center:  [halfWidth, halfHeight + 100],
+		radius: 150,
+		fillColor: 
+		
+		
+		{
+        gradient: {
+            stops: ['yellow', 'red']
+        },
+        origin: origin,
+        destination: destination
+    },
+		strockeColor: 'white',
+		shadowColor: '#ff00ff',
+		shadowBlur : 100,
+		shahowOffset : new Point(5, 5)
+
+
+
+
+	  });
+
+	 
+
+	//   fsdfs
+
+
+  
+
+	  var sun = new Path.Circle({
+		center:  [halfWidth, halfHeight + 100],
+		radius: 150,
+		//fillColor : 'yellow',
+		//strokeWidth : 10
+
+
+	  });
+
+	
+
+
+
+var g = new Group();
+var g2 = new Group();
+
+
+
+var layer = new Layer();
+
+
+
+
+
+function onFrame(event) {
+
+
+	if (globals.onRoad){
+
+		text.content = "Press any key, A to Z, \n and turn up speakers";
+text.fillColor.hue += 1;
+text.bringToFront();
+
+		if( globals.stop === false){
+
+
+
+
+
+			var newSunLine = new Path.Line({
+
+from: [0, halfHeight + 40],
+to: [maxWidth, halfHeight + 40],
+strokeColor : '#660080',
+strokeWidth: 0,
+shadowColor: 'red',
+//shadowBlur: 20
+
+
+});
+
+
+g2.addChild( sun );
+
+g.addChild( g2 );
+g.addChild( newSunLine );
+
+g.clipped = true;
+
+
+
+sunLines.push(newSunLine);
+//console.log(sunLines);
+
+
+
+globals.stop = true;
+
+
+
+setTimeout(function(){
+	
+	globals.stop = false
+
+}, 500);
+
+}
+
+	}else{
+
+
+		text.content = "Point the Car";
+text.fillColor.hue += 1;
+text.bringToFront();
+
+
+	}
+
+
+	for (var i = 0; i < sunLines.length; i++) {
+		// var item = project.activeLayer.children[i];
+		
+		
+		// var y = 0;
+		 
+		sunLines[i].position.y += 0.9;
+		 sunLines[i].strokeWidth += 0.080;
+		// sunLines[i].scale(1.2);
+		sunLines[i].bringToFront();
+        
+		if (sunLines[i].bounds.bottom > view.size.height) {
+			sunLines[i].position.y = -sunLines[i].bounds.Maxheight;
+			sunLines[i].remove();  
+     	    sunLines.splice(i, 1);
+			 
+		}
+	}
+
+
+
+for(var i = 0; i < circles.length; i++){
+circles[i].fillColor.hue += 1;
+circles[i].scale(.9);
+//circles[i].strokeColor = "black";
+if(circles[i].area < 1){
+circles[i].remove(); // remove the circle from the canvas
+circles.splice(i, 1); // remove the circle from the array
+//console.log(circles);
+}
+}
+
+for(var i = 0; i < triangles.length; i++){
+triangles[i].fillColor.hue += 1;
+triangles[i].scale(.9);
+triangles[i].rotate(2);
+//triangles[i].strokeColor = "black";
+
+
+if(triangles[i].area < 1){
+triangles[i].remove(); // remove the circle from the canvas
+triangles.splice(i, 1); // remove the circle from the array
+//console.log(circles);
+}
+
+
+}
+
+for(var i = 0; i < squares.length; i++){
+squares[i].fillColor.hue += 1;
+squares[i].scale(.9);
+squares[i].rotate(2);
+//squares[i].strokeColor = "black";
+
+
+if(squares[i].area < 1){
+squares[i].remove(); // remove the circle from the canvas
+squares.splice(i, 1); // remove the circle from the array
+//console.log(circles);
+}
+
+
+}
+
+
+if(globals.keyUnder && globals.keyOpen == true){
+	if(keyData[globals.keyUnder]){
+
+		var shape = shapes[Math.floor(Math.random() * shapes.length)];
+		
+
+		if(shape === "circle"){
+
+            createCircle();
+		}else if(shape === "triangle" ){
+
+			createTriangle();
+
+		}else{
+            createSquares();
+
+		}
+
+ globals.keyOpen = false;
+
+ }
+
+}
+
+
+}
+
+
+function createCircle(){
+
+	var maxPoint = new Point(view.size.width, view.size.height);
+ var randomPoint = Point.random();
+ var point = maxPoint * randomPoint;
+ var newCircle = new Path.Circle(point, 500);
+ newCircle.fillColor = keyData[globals.keyUnder].color;
+ keyData[globals.keyUnder].sound.play();
+ circles.push(newCircle);
+
+
+}
+
+
+function createTriangle(){
+
+var maxPoint = new Point(view.size.width, view.size.height);
+var randomPoint = Point.random();
+var point = maxPoint * randomPoint;
+var newTriangle = new Path.RegularPolygon(point, 3, 500);
+newTriangle.fillColor = keyData[globals.keyUnder].color;
+keyData[globals.keyUnder].sound.play();
+triangles.push(newTriangle);
+
+
+}
+
+function createSquares(){
+
+var maxPoint = new Point(view.size.width, view.size.height);
+var randomPoint = Point.random();
+var point = maxPoint * randomPoint;
+var newSquare = new Path.RegularPolygon(point, 4, 500);
+newSquare.fillColor = keyData[globals.keyUnder].color;
+keyData[globals.keyUnder].sound.play();
+squares.push(newSquare);
+
+
+}
+
+
+
+window.globals = {
+
+	
+
+    keyUnder : "",
+	keyOpen : true,
+	stop: false,
+	onRoad: false
+	
+    
+    
+   
+}
+
+
+
+    </script>
+
+<!-- ------------------------------------------------------------------------------- -->
+
+	<script type="text/paperscript" canvas="roadCanvas">
+	
+
+	var roadSound = new Howl({
+		  		src: ['sounds/Loop-Bass.wav'],
+				  loop: true,
+				});
+	
+      var maxWidth = view.size.width;
+      var maxHeight = view.size.height;
+
+	  var halfWidth =  view.size.width / 2; 
+	  var halfHeight = view.size.height /2;
+
+	  
+          
+	var roadLines = [];
+
+
+	
+	 var horizont = new Path(new Point(0, 2.5), new Point(maxWidth, 2.5));
+	 horizont.strokeColor = '#99ffff';
+	 horizont.strokeWidth = 5;
+	 horizont.shadowColor = '#66ffff';
+	 horizont.shadowBlur = 15;
+     horizont.shahowOffset = new Point(5, 5);
+
+
+
+
+var	onRoad = false;
+
+var stop = false;
+
+	
+
+// var carLayer = new Layer();	
+
+var imgCar = new Raster('img/Synth_CarSynth.png');
+imgCar.position.x = halfWidth;
+imgCar.position.y = halfHeight + 115;
+imgCar.scale(0.5);
+imgCar.shadowColor = '#ff99ff';
+
+imgCar.shahowOffset = new Point(5, 5);
+
+
+
+     var rLight1 = new Path(new Point(halfWidth - 240, 350), new Point(halfWidth - 135, 350));
+	 rLight1.strokeColor = '#800000';
+	 rLight1.strokeWidth = 5;
+	//  rLight1.shadowColor = 'red';
+	//  rLight1.shadowBlur = 15;
+     rLight1.shahowOffset = new Point(5, 5);
+	 rLight1.bringToFront();
+
+	 rLight2 = rLight1.clone();
+	 rLight2.position.y =+ 365;
+
+	 rLight3 = rLight1.clone();
+	 rLight3.position.y =+ 380;
+
+	 rLight4 = rLight1.clone();
+	 rLight4.position.y =+ 395;
+
+	 rLight5 = rLight1.clone();
+	 rLight5.position.y =+ 410;
+
+
+	 var lLight1 = new Path(new Point(halfWidth + 240, 350), new Point(halfWidth + 135, 350));
+	 lLight1.strokeColor = '#800000';
+	 lLight1.strokeWidth = 5;
+	 //lLight1.shadowColor = 'red';
+	 //lLight1.shadowBlur = 15;
+     lLight1.shahowOffset = new Point(5, 5);
+	 lLight1.bringToFront();
+
+	 lLight2 = lLight1.clone();
+	 lLight2.position.y =+ 365;
+
+	 lLight3 = lLight1.clone();
+	 lLight3.position.y =+ 380;
+
+	 lLight4 = lLight1.clone();
+	 lLight4.position.y =+ 395;
+
+	 lLight5 = lLight1.clone();
+	 lLight5.position.y =+ 410;
+
+
+
+
+ var play = true;
+
+  
+ imgCar.onMouseEnter = function (){
+	
+	
+rLight1.shadowColor = 'red';
+rLight1.shadowBlur = 15;
+rLight1.strokeColor = 'red';
+
+rLight2.shadowColor = 'red';
+rLight2.shadowBlur = 15;
+rLight2.strokeColor = 'red';
+
+rLight3.shadowColor = 'red';
+rLight3.shadowBlur = 15;
+rLight3.strokeColor = 'red';
+
+rLight4.shadowColor = 'red';
+rLight4.shadowBlur = 15;
+rLight4.strokeColor = 'red';
+
+rLight5.shadowColor = 'red';
+rLight5.shadowBlur = 15;
+rLight5.strokeColor = 'red';
+
+
+lLight1.shadowColor = 'red';
+lLight1.shadowBlur = 15;
+lLight1.strokeColor = 'red';
+
+lLight2.shadowColor = 'red';
+lLight2.shadowBlur = 15;
+lLight2.strokeColor = 'red';
+
+lLight3.shadowColor = 'red';
+lLight3.shadowBlur = 15;
+lLight3.strokeColor = 'red';
+
+lLight4.shadowColor = 'red';
+lLight4.shadowBlur = 15;
+lLight4.strokeColor = 'red';
+
+lLight5.shadowColor = 'red';
+lLight5.shadowBlur = 15;
+lLight5.strokeColor = 'red';
+
+	
+imgCar.shadowBlur = 100;
+
+	if(play){
+
+//console.log("hola")
+roadSound.play();
+play = false;
+}
+
+  onRoad = true;
+  globals.onRoad = true;
+
+
+
+}
+
+
+
+imgCar.onMouseLeave = function() {
+	imgCar.shadowBlur = 0;
+
+	rLight1.shadowColor = null;
+    rLight1.shadowBlur = 0;
+	rLight1.strokeColor = '#800000';
+
+	rLight2.shadowColor = null;
+    rLight2.shadowBlur = 0;
+	rLight2.strokeColor = '#800000';
+
+	rLight3.shadowColor = null;
+    rLight3.shadowBlur = 0;
+	rLight3.strokeColor = '#800000';
+
+	rLight4.shadowColor = null;
+    rLight4.shadowBlur = 0;
+	rLight4.strokeColor = '#800000';
+
+	rLight5.shadowColor = null;
+    rLight5.shadowBlur = 0;
+	rLight5.strokeColor = '#800000';
+
+	lLight1.shadowColor = null;
+    lLight1.shadowBlur = 0;
+	lLight1.strokeColor = '#800000';
+
+	lLight2.shadowColor = null;
+    lLight2.shadowBlur = 0;
+	lLight2.strokeColor = '#800000';
+
+	lLight3.shadowColor = null;
+    lLight3.shadowBlur = 0;
+	lLight3.strokeColor = '#800000';
+
+	lLight4.shadowColor = null;
+    lLight4.shadowBlur = 0;
+	lLight4.strokeColor = '#800000';
+
+	lLight5.shadowColor = null;
+    lLight5.shadowBlur = 0;
+	lLight5.strokeColor = '#800000';
+
+
+	//console.log("bye")
+	roadSound.stop();
+	play = true;
+    onRoad = false;
+	globals.onRoad = false;
+	
+}
+
+function onKeyDown(e){
+
+globals.keyUnder = e.key;
+globals.keyOpen = true;
+//console.log(e.key);
+
+}
+
+
+
+// The onFrame function is called up to 60 times a second:
+function onFrame(event) {
+
+	if (onRoad){
+		if(stop === false){
+//sconsole.log(stop);
+var newRoadLine = new Path(new Point(halfWidth - 30, 0), new Point(halfWidth + 30, 0));
+
+
+newRoadLine.strokeColor = '#ff1aff';
+newRoadLine.strokeWitdh = 0;
+newRoadLine.shadowColor = 'white';
+newRoadLine.shadowBlur = 20;
+newRoadLine.shahowOffset = new Point(5, 5);
+
+newRoadLine.sendToBack();
+
+
+
+roadLines.push(newRoadLine);
+//console.log(roadLines);
+
+stop = true;
+
+setTimeout(function(){
+	
+	stop = false
+
+}, 100);
+
+}
+
+	}
+
+
+
+	// Run through the active layer's children list and change
+	// the position of the placed symbols:
+	for (var i = 0; i < roadLines.length; i++) {
+		var item = project.activeLayer.children[i];
+		
+		
+		var y = 0;
+		 
+		item.position.y += 10;
+		roadLines[i].strokeWidth += 0.6;
+		roadLines[i].scale(1.1);
+		//roadLines[i].sendToBack();
+        
+		if (item.bounds.bottom > view.size.height) {
+			item.position.y = -item.bounds.Maxheight;
+			roadLines[i].remove();  
+     	    roadLines.splice(i, 1);
+			 
+		}
+	}
+}
+
+    </script>
+
+</head>
+
+<body>
+	
+    <canvas id="skyCanvas" resize></canvas>
+    <canvas id="roadCanvas" resize></canvas>
+</body>
+
+</html>
